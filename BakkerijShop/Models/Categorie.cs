@@ -5,15 +5,10 @@ using System.Threading.Tasks;
 
 namespace BakkerijShop.Models
 {
-    public class Product
+    public class Categorie
     {
         public long Id { get; set; }
-
         public string Naam { get; set; }
-        //public string Categorie { get; set; }
-        public decimal Prijs { get; set; }
-
-        public long CategorieId { get; set; }
-        public Categorie Categorie { get; set; }
+        public string Beschrijving { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ namespace BakkerijShop.Models
 
         public DataRepository(DataContext ctx) => context = ctx;
 
-        public IEnumerable<Product> Products => context.Products.ToArray();
+        public IEnumerable<Product> Products => context.Products
+            .Include(p => p.Categorie).ToArray();
 
-        public Product GetProduct(long key) => context.Products.Find(key);
+        public Product GetProduct(long key) => context.Products
+            .Include(p => p.Categorie).First(p => p.Id == key);
 
         public void AddProduct(Product product)
         {
@@ -23,11 +26,11 @@ namespace BakkerijShop.Models
 
         public void UpdateProduct(Product product)
         {
-            Product p = GetProduct(product.Id);
+            Product p = context.Products.Find(product.Id);
             p.Naam = product.Naam;
-            p.Categorie = product.Categorie;
+            //p.Category = product.Category;
             p.Prijs = product.Prijs;
-            //context.Products.Update(product);
+            p.CategorieId = product.CategorieId;
             context.SaveChanges();
         }
 
